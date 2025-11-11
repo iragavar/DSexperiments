@@ -1,0 +1,22 @@
+JobId,Job_type,BillingPeriod,start_time,end_time,status,job_configs
+101,BillingExtract,2025-10,2025-10-01 08:00:00,2025-10-01 08:25:00,COMPLETE,"[{""postingFlag"": true}]"
+102,LoadFromS3Ephemeral,2025-10,2025-10-01 08:10:00,2025-10-01 08:20:00,COMPLETE,"[{""postingFlag"": true}]"
+103,RPA_User_Upload,2025-10,2025-10-01 08:30:00,2025-10-01 08:40:00,COMPLETE,"[{""postingFlag"": true}]"
+104,VB_Simulation,2025-10,2025-10-01 08:45:00,2025-10-01 09:10:00,COMPLETE,"[{""postingFlag"": false, ""job_config_id"": 101}]"
+105,TPB_Simulation,2025-10,2025-10-01 09:15:00,2025-10-01 09:35:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 102}]"
+106,Upload_RPA,2025-10,2025-10-01 09:40:00,2025-10-01 09:50:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 104}]"
+107,Sweep_And_Sync,2025-10,2025-10-01 09:55:00,2025-10-01 10:05:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 106}]"
+108,Zuora_Update,2025-10,2025-10-01 09:50:00,2025-10-01 10:10:00,COMPLETE,"[{""postingFlag"": true}]"
+109,Post_To_Zuora,2025-10,2025-10-01 10:15:00,2025-10-01 10:35:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 108}]"
+110,Reconciliation,2025-10,2025-10-01 10:40:00,2025-10-01 11:00:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 107}]"
+
+# Second run (with an error and retry)
+201,BillingExtract,2025-11,2025-11-01 08:00:00,2025-11-01 08:22:00,COMPLETE,"[{""postingFlag"": true}]"
+202,RPA_User_Upload,2025-11,2025-11-01 08:25:00,2025-11-01 08:35:00,COMPLETE,"[{""postingFlag"": true}]"
+203,VB_Simulation,2025-11,2025-11-01 08:40:00,2025-11-01 09:05:00,ERROR - Updated by System,"[{""postingFlag"": false, ""job_config_id"": 201}]"
+204,VB_Simulation,2025-11,2025-11-01 09:15:00,2025-11-01 09:45:00,COMPLETE,"[{""postingFlag"": false, ""job_config_id"": 201}]"
+205,Upload_RPA,2025-11,2025-11-01 09:50:00,2025-11-01 10:00:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 204}]"
+206,Sweep_And_Sync,2025-11,2025-11-01 10:05:00,2025-11-01 10:15:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 205}]"
+207,Zuora_Update,2025-11,2025-11-01 10:10:00,2025-11-01 10:25:00,COMPLETE,"[{""postingFlag"": true}]"
+208,Post_To_Zuora,2025-11,2025-11-01 10:30:00,2025-11-01 10:50:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 207}]"
+209,Reconciliation,2025-11,2025-11-01 10:55:00,2025-11-01 11:15:00,COMPLETE,"[{""postingFlag"": true, ""job_config_id"": 206}]"

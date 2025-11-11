@@ -1,0 +1,82 @@
+[
+  {
+    "job_type": "BillingExtract",
+    "dependencies": {
+      "all_of": [],
+      "one_of": []
+    },
+    "description": "Extracts billing data for the current period. Typically the first step in the process."
+  },
+  {
+    "job_type": "LoadFromS3Ephemeral",
+    "dependencies": {
+      "all_of": [],
+      "one_of": []
+    },
+    "description": "Loads pre-generated billing or simulation data from S3 into an ephemeral environment, used when BillingExtract is skipped."
+  },
+  {
+    "job_type": "RPA_User_Upload",
+    "dependencies": {
+      "all_of": [],
+      "one_of": []
+    },
+    "description": "Uploads RPA user mappings and configurations before running VB or TPB simulations."
+  },
+  {
+    "job_type": "VB_Simulation",
+    "dependencies": {
+      "all_of": ["RPA_User_Upload"],
+      "one_of": ["BillingExtract", "LoadFromS3Ephemeral"]
+    },
+    "description": "Runs VB simulation — requires RPA User Upload and either BillingExtract or LoadFromS3Ephemeral."
+  },
+  {
+    "job_type": "TPB_Simulation",
+    "dependencies": {
+      "all_of": [],
+      "one_of": ["BillingExtract", "LoadFromS3Ephemeral"]
+    },
+    "description": "Runs TPB simulation — requires either BillingExtract or LoadFromS3Ephemeral."
+  },
+  {
+    "job_type": "Upload_RPA",
+    "dependencies": {
+      "all_of": ["VB_Simulation"],
+      "one_of": []
+    },
+    "description": "Uploads results to the RPA system after successful VB simulation."
+  },
+  {
+    "job_type": "Sweep_And_Sync",
+    "dependencies": {
+      "all_of": ["Upload_RPA"],
+      "one_of": []
+    },
+    "description": "Sweeps processed records and synchronizes them with the internal repository after RPA upload."
+  },
+  {
+    "job_type": "Zuora_Update",
+    "dependencies": {
+      "all_of": [],
+      "one_of": []
+    },
+    "description": "Updates customer and billing information in Zuora prior to posting."
+  },
+  {
+    "job_type": "Post_To_Zuora",
+    "dependencies": {
+      "all_of": ["Zuora_Update"],
+      "one_of": []
+    },
+    "description": "Posts finalized billing transactions to Zuora after updates are complete."
+  },
+  {
+    "job_type": "Reconciliation",
+    "dependencies": {
+      "all_of": ["Sweep_And_Sync", "Post_To_Zuora"],
+      "one_of": []
+    },
+    "description": "Runs after sweep and posting to reconcile data between RPA outputs and Zuora entries."
+  }
+]
